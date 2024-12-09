@@ -15,12 +15,14 @@ jobs:
       - name: Set up Pages
         uses: actions/configure-pages@v1
 
-      - name: Deploy SVG
+      - name: Set up Git user configuration
         run: |
-          mkdir -p public
-          cp file.svg public/
           git config --global user.name "finestilo"
           git config --global user.email "finestilo.homes@gmail.com"
+
+      - name: Create gh-pages branch
+        run: |
+          git checkout --orphan gh-pages || git checkout gh-pages
           git add public
-          git commit -m "Deploy SVG to GitHub Pages"
-          git push origin HEAD:gh-pages
+          git commit -m "Deploy SVG to GitHub Pages" || echo "No changes to commit"
+          git push origin gh-pages
